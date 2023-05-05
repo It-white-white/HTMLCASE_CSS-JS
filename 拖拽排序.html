@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>拖拽排序-by_一只哈士奇</title>
+    <style>
+        ul{
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+        p{
+            text-align: center;
+            margin: 0 auto;
+        }
+        .draggable-list-wrapper{
+            width: 500px;
+            margin: 50px auto;
+            box-shadow: 1px 3px 5px #999;
+            background-color: #ffffff;
+            padding: 10px 30px 30px;
+        }
+
+        .draggable-item{
+            height: 50px;
+            line-height: 50px;
+            border: 1px solid #494949;
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+        .dragging{
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="draggable-list-wrapper"></div>
+    <script>
+        // 目标数组
+        const listData = [
+            '1111111111111111',
+            '2222222222222222',
+            '3333333333333333',
+            '4444444444444444'
+        ]
+        ;(()=>{
+            // 获取目标容器
+            const oWrapper = document.querySelector('.draggable-list-wrapper')
+            console.log('11')
+            // 初始化函数
+            const init = ()=>{
+                // 列表渲染
+                render()
+                // 事件绑定
+                bindEvent()
+            }
+            //动态创建目标容器的li
+            function render(){
+                const oList = createList()
+                oWrapper.appendChild(oList)
+            }
+            // 主要用来启动事件绑定，包括拖动进入瞬间事件，拖动进入之后事件
+            // 给windows加事件绑定是防止浏览器默认行为产生的抖动
+            function bindEvent(){
+                const oDraggableList = oWrapper.querySelector('.draggable-list')
+                const oDraggableItems = oDraggableList.querySelectorAll('.draggable-item')
+                oDraggableList.addEventListener('dragover',handleDragOver,false)
+                oDraggableList.addEventListener('dragenter',(e)=>e.preventDefault(),false)
+                window.addEventListener('dragover',(e)=>e.preventDefault(),false)
+                window.addEventListener('dragenter',(e)=>e.preventDefault(),false)
+                oDraggableItems.forEach(item=>{
+                    item.addEventListener('dragstart',handleDragStart,false)
+                    item.addEventListener('dragend',handleDragEnd,false)
+                })
+            }
+            //li拖拽开始处理函数
+            // 此处的setTimeout是延迟函数，当鼠标拖动瞬间，原li会消失，此时鼠标拖动下的li也会消失
+            // 加上该函数，鼠标拖动下的li就不会消失，是浏览器特性导致的。
+            function handleDragStart(){
+                const item = this
+                setTimeout(()=>item.classList.add('dragging'),0)
+            }
+            //li拖拽结束处理函数
+            function handleDragEnd(){
+                const item = this
+                item.classList.remove('dragging')
+            }
+            // 处理拖拽之后进入指定范围的操作
+            // 当拖动的li(简称a)进入其它li(简称b)一半的高度和b距离视窗的高度之和后，b自动插入到a之后
+            function handleDragOver(e){
+                e.preventDefault();
+                const oDraggableList = this
+                const oDraggingItem = oDraggableList.querySelector('.dragging')
+                const oSibItems = oDraggableList.querySelectorAll('.draggable-item:not(.dragging)')
+                const oSibItem = [...oSibItems].find(item=> e.clientY <= item.offsetTop + item.offsetHeight / 2)
+                oDraggableList.insertBefore(oDraggingItem,oSibItem)
+            }
+            // 创建li并将已定义的数组赋值进去
+            function createList(){
+                const oDraggableList = document.createElement('ul')
+                oDraggableList.className = 'draggable-list'
+                listData.forEach( item =>{
+                    const oItem = document.createElement('li')
+                    oItem.className = 'draggable-item'
+                    oItem.draggable = true;
+                    oItem.innerHTML= `<p>${item}</p>`
+                    oDraggableList.appendChild(oItem)
+                })
+                // 返回动态创建的li给到目标容器
+                return oDraggableList
+            }
+            // 初始化
+            init()
+        })()
+    </script>
+</body>
+</html>
