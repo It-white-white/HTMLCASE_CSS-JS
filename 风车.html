@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>风车_一只哈士奇</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    .thirdDemowindmill{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        min-height: 100vh;
+    }
+    .fan{
+        position: relative;
+        width: 60px;
+        height: 60px;
+        animation: rotate 4s linear infinite;
+    }
+    .top{
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-top: 15px solid transparent;
+        border-left: 15px solid #f6ef9b;
+        border-right: 15px solid #f4d458;
+        border-bottom: 15px solid #f6ef9b;
+    }
+    .right{
+        position: absolute;
+        top: 0;
+        right: 0;
+        border-top: 15px solid #f28b1c;
+        border-left: 15px solid #f28b1c;
+        border-right: 15px solid transparent;
+        border-bottom: 15px solid #e63e3b;
+    }
+    .bottom{
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        border-top: 15px solid #8cd3bf;
+        border-left: 15px solid #3874b9;
+        border-right: 15px solid #8cd3bf;
+        border-bottom: 15px solid transparent;
+    }
+    .left{
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        border-top: 15px solid #32b273;
+        border-left: 15px solid transparent;
+        border-right: 15px solid #c3d864;
+        border-bottom: 15px solid #c3d864;
+    }
+    @keyframes rotate {
+            0%{
+                -webkit-transform:rotate(0deg);
+                left: 0;
+                top: 0;
+            }
+            50%{
+                -webkit-transform:rotate(180deg); 
+                left: 0;
+                top: 0;
+            }
+            100%{
+                -webkit-transform:rotate(360deg); 
+                left: 0;
+                top: 0;
+            }
+    }
+</style>
+<body>
+    <div class="thirdDemowindmill">
+        <div class="windowmill">
+            <div class="fan">
+                <div class="top"></div>
+                <div class="right"></div>
+                <div class="left"></div>
+                <div class="bottom"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
